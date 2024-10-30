@@ -5,25 +5,31 @@
  */
 function applyCustomSort() {
   [].__proto__.sort2 = function (compareFunction) {
+    if (compareFunction === undefined) {
+      return this;
+    }
+    let tmp = this.slice();
+
     for (let i = 0; i < this.length; i++) {
-      for (let j = i + 1; j < this.length; j++) {
-        const a = this[i];
-        const b = this[j];
-        if (compareFunction(a, b) < 0) {
-          continue;
-        } else {
-          const tmp = this[i];
-          this[i] = this[j];
-          this[j] = tmp;
+      // we count the number of times an element of the list fails the comparison
+      // we then take that number as its rank and index
+      let rank = 0;
+
+      for (let j = 0; j < this.length; j++) {
+        if (!compareFunction(this[i], this[j])) {
+          if (this[i] !== this[j]) {
+            rank += 1;
+          }
         }
       }
+      tmp[rank] = this[i];
     }
-    return this;
+    return tmp;
   };
 }
 
 // applyCustomSort();
-// const result = [3, 2, 1].sort2((a, b) => a - b);
-// console.log(result); // Output: [1, 2, 3]
+// const result = ['c', 'ab', 'a', 'ad', 'b'].sort2((a, b) => a < b);
+// console.log(result);
 
 module.exports = applyCustomSort;
