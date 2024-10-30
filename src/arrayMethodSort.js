@@ -5,11 +5,9 @@
  */
 
 function applyCustomSort() {
-  [].__proto__.sort2 = function (compareFunction) {
-    if (compareFunction === undefined) {
-      // Default string comparison to match JavaScript's native sort
-      compareFunction = (a, b) => String(a) > String(b);
-    }
+  [].__proto__.sort2 = function (
+    compareFunction = (a, b) => String(a) > String(b),
+  ) {
     // Bubble sort algorithm
     const arr = this.slice(); // Create shallow copy of the array
     const n = arr.length;
@@ -25,6 +23,7 @@ function applyCustomSort() {
 
     // Clear the original array and push sorted elements
     this.length = 0;
+
     for (const item of arr) {
       this.push(item);
     }
