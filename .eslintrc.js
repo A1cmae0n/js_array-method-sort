@@ -1,7 +1,13 @@
 module.exports = {
-  extends: '@mate-academy/eslint-config',
   env: {
+    node: true,
     jest: true
+  },
+  extends: [
+    'eslint:recommended'
+  ],
+  parserOptions: {
+    ecmaVersion: 2015
   },
   rules: {
     'no-proto': 0

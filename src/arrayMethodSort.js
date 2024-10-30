@@ -3,33 +3,36 @@
 /**
  * Implement method Sort
  */
+
 function applyCustomSort() {
   [].__proto__.sort2 = function (compareFunction) {
     if (compareFunction === undefined) {
-      return this;
+      // Default string comparison to match JavaScript's native sort
+      compareFunction = (a, b) => String(a) > String(b);
     }
-    let tmp = this.slice();
+    // Bubble sort algorithm
+    const arr = this.slice(); // Create shallow copy of the array
+    const n = arr.length;
 
-    for (let i = 0; i < this.length; i++) {
-      // we count the number of times an element of the list fails the comparison
-      // we then take that number as its rank and index
-      let rank = 0;
-
-      for (let j = 0; j < this.length; j++) {
-        if (!compareFunction(this[i], this[j])) {
-          if (this[i] !== this[j]) {
-            rank += 1;
-          }
+    for (let i = 0; i < n - 1; i++) {
+      for (let j = 0; j < n - i - 1; j++) {
+        if (compareFunction(arr[j], arr[j + 1]) > 0) {
+          // Swap arr[j] and arr[j + 1]
+          [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
         }
       }
-      tmp[rank] = this[i];
     }
-    return tmp;
+
+    // Clear the original array and push sorted elements
+    this.length = 0;
+    for (const item of arr) {
+      this.push(item);
+    }
+
+    return this;
   };
 }
 
-// applyCustomSort();
-// const result = ['c', 'ab', 'a', 'ad', 'b'].sort2((a, b) => a < b);
-// console.log(result);
+applyCustomSort();
 
 module.exports = applyCustomSort;
