@@ -12,22 +12,19 @@ function applyCustomSort() {
     } else {
       callback = compareFunction;
     }
-    // Bubble sort implementation
+
     for (let i = 0; i < this.length - 1; i++) {
-      for (let j = 0; j < this.length - 1 - i; j++) {
-        // If callback returns positive value, swap elements
-        if (callback(this[j], this[j + 1]) > 0) {
-          // Swap elements
+      for (let j = i; j < this.length - 1; j++) {
+        let a = this[j];
+        let b = this[j + 1];
+        if (callback(a, b) > 0) {
           const temp = this[j];
           this[j] = this[j + 1];
           this[j + 1] = temp;
         }
       }
-    }
-    return this;
+    };
   };
 }
 
 module.exports = applyCustomSort;
-
-applyCustomSort();
